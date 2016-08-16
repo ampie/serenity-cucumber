@@ -1,82 +1,197 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <artifactId>thucydides</artifactId>
-        <groupId>net.thucydides</groupId>
-        <version>0.9.275</version>
-    </parent>
-    <groupId>net.thucydides</groupId>
-    <artifactId>thucydides-cucumber-plugin</artifactId>
-    <version>0.9.276-SNAPSHOT</version>
+    <groupId>sample-cucumber-import</groupId>
+    <artifactId>sample-cucumber-import</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <name>thucydides-cucumber-plugin</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <cucumber.jvm.version>1.1.8</cucumber.jvm.version>
-        <thucydides.version>0.9.275</thucydides.version>
     </properties>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>sadf</id>
+            <url>http://dl.bintray.com/serenity/maven/</url>
+        </pluginRepository>
+    </pluginRepositories>
+    <repositories>
+        <repository>
+            <id>sadf2</id>
+            <url>http://dl.bintray.com/serenity/maven/</url>
+        </repository>
+    </repositories>
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire.version}</version>
-                <configuration>
-                    <argLine>-Xmx512m -XX:MaxPermSize=128m</argLine>
-                    <includes>
-                        <include>**/When*.*</include>
-                    </includes>
-                    <systemPropertyVariables>
-                        <thucydides.logging>QUIET</thucydides.logging>
-                    </systemPropertyVariables>
-                    <threadCountClasses>0</threadCountClasses>
-                </configuration>
+                <groupId>net.serenity-bdd.maven.plugins</groupId>
+                <artifactId>serenity-maven-plugin</artifactId>
+                <version>1.1.37-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <id>serenity-import</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>import</goal>
+                        </goals>
+                        <configuration>
+                            <source>${basedir}/card</source>
+                            <outputDirectory>${basedir}/target/serenity-json</outputDirectory>
+                            <format>cucumber-json</format>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>serenity-aggregate</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirectory>${basedir}/target/serenity-json</sourceDirectory>
+                            <outputDirectory>${basedir}/target/site/serenity</outputDirectory>
+                            <jiraUsername>ampie</jiraUsername>
+                            <jiraPassword>Ainn!kk1</jiraPassword>
+                            <jiraProject>CARD</jiraProject>
+                            <jiraUrl>http://localhost:8081</jiraUrl>
+                            <projectKey>CARD</projectKey>
+                        </configuration>
+                    </execution>
+
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.serenity-bdd</groupId>
+                        <artifactId>serenity-jira-plugin</artifactId>
+                        <version>1.1.3-SNAPSHOT</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.serenity-bdd</groupId>
+                        <artifactId>serenity-jira-requirements-provider</artifactId>
+                        <version>1.1.3-SNAPSHOT</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.serenity-bdd</groupId>
+                        <artifactId>serenity-cucumber</artifactId>
+                        <version>1.1.10-SNAPSHOT</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.serenity-bdd</groupId>
+                        <artifactId>serenity-core</artifactId>
+                        <version>1.1.37-SNAPSHOT</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.serenity-bdd</groupId>
+                        <artifactId>serenity-report-resources</artifactId>
+                        <version>1.1.37-SNAPSHOT</version>
+                    </dependency>
+
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>set-system-properties</goal>
+                        </goals>
+                        <configuration>
+                            <properties>
+                                <property>
+                                    <name>serenity.adaptors.cucumber-json</name>
+                                    <value>net.serenitybdd.cucumber.adapter.CucumberJsonAdapter</value>
+                                </property>
+                                <property>
+                                    <name>serenity.adaptors.cucumber-json.outputdir</name>
+                                    <value>${basedir}/target/serenity-json</value>
+                                </property>
+                                <property>
+                                    <name>show.pie.charts</name>
+                                    <value>false</value>
+                                </property>
+                                <property>
+                                    <name>serenity.requirements.types</name>
+                                    <value>Epic,Story</value>
+                                </property>
+                                <property>
+                                    <name>serenity.jira.workflow</name>
+                                    <value>my-workflow.groovy</value>
+                                </property>
+                                <property>
+                                    <name>serenity.reports.show.step.details</name>
+                                    <value>true</value>
+                                </property>
+                                <property>
+                                    <name>serenity.report.show.manual.tests</name>
+                                    <value>false</value>
+                                </property>
+                                <property>
+                                    <name>serenity.issue.tracker.url</name>
+                                    <value>http://localhost:8081/browse/{0}</value>
+                                </property>
+                                <property>
+                                    <name>jira.url</name>
+                                    <value>http://localhost:8081</value>
+                                </property>
+                                <property>
+                                    <name>jira.project</name>
+                                    <value>CARD</value>
+                                </property>
+                                <property>
+                                    <name>jira.username</name>
+                                    <value>ampie</value>
+                                </property>
+                                <property>
+                                    <name>jira.password</name>
+                                    <value>Ainn!kk1</value>
+                                </property>
+                                <property>
+                                    <name>serenity.jira.workflow.active</name>
+                                    <value>true</value>
+                                </property>
+                                <property>
+                                    <name>serenity.skip.jira.updates</name>
+                                    <value>false</value>
+                                </property>
+                                <property>
+                                    <name>serenity.public.url</name>
+                                    <value>file:///home/ampie/Code/serenity/serenity-cucumber/src/test/resources/sample-importing-pom/target/site/serenity</value>
+                                </property>
+                            </properties>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
     <dependencies>
-        <dependency>
-            <groupId>net.thucydides</groupId>
-            <artifactId>thucydides-core</artifactId>
-            <version>${thucydides.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.thucydides</groupId>
-            <artifactId>thucydides-test-utils</artifactId>
-            <version>${thucydides.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>${cucumber.jvm.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-junit</artifactId>
-            <version>${cucumber.jvm.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-        </dependency>
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.9.8</version>
-        </dependency>
-        <dependency>
-            <groupId>org.easytesting</groupId>
-            <artifactId>fest-assert</artifactId>
-            <version>1.4</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.7</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-jira-requirements-provider</artifactId>
+            <version>1.1.3-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-jira-plugin</artifactId>
+            <version>1.1.3-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-core</artifactId>
+            <version>1.1.37-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>net.serenity-bdd</groupId>
+            <artifactId>serenity-report-resources</artifactId>
+            <version>1.1.37-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 </project>

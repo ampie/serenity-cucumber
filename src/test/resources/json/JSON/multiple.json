@@ -1,0 +1,424 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "Multiple_Payments",
+    "line": 1,
+    "description": "",
+    "id": "multiple-payments",
+    "uri": "/Users/Sonalisa/Documents/Work/SBG/Cucumber_Trunk/trunk/features-tablet/multiple_payments.feature",
+    "elements": [
+      {
+        "comments": [
+          {
+            "value": "#Gherkin changed",
+            "line": 2
+          }
+        ],
+        "keyword": "Scenario Outline",
+        "name": "Multiple_Private Beneficiary",
+        "line": 4,
+        "description": "",
+        "tags": [
+          {
+            "name": "@mul",
+            "line": 3
+          }
+        ],
+        "id": "multiple-payments;multiple-private-beneficiary",
+        "type": "scenario_outline",
+        "steps": [
+          {
+            "comments": [
+              {
+                "value": "#Given I log in and navigate to Pay screen",
+                "line": 5
+              }
+            ],
+            "keyword": "Given ",
+            "name": "I sign in",
+            "line": 6,
+            "match": {
+              "location": "steps/login_steps.rb:24"
+            }
+          },
+          {
+            "comments": [
+              {
+                "value": "#And I add a card with details card number <cardnumber> with atm pin <atmPin> together with my mobile number <mobileNumber> and SA ID <SAID>",
+                "line": 7
+              }
+            ],
+            "keyword": "And ",
+            "name": "I select private Beneficiaries \"<Private_Beneficiary1>\",\"<Private_Beneficiary2>\" to pay",
+            "line": 8,
+            "match": {
+              "location": "/Users/Sonalisa/Documents/Work/SBG/Cucumber_Trunk/trunk/features-tablet/multiple_payments.feature:8"
+            }
+          },
+          {
+            "keyword": "When ",
+            "name": "I enter the amount details \"<amount1>\",\"<amount2>\" and navigate to review screen",
+            "line": 9,
+            "match": {
+              "location": "/Users/Sonalisa/Documents/Work/SBG/Cucumber_Trunk/trunk/features-tablet/multiple_payments.feature:9"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "name": "I must see the payment successful message",
+            "line": 10,
+            "match": {
+              "location": "/Users/Sonalisa/Documents/Work/SBG/Cucumber_Trunk/trunk/features-tablet/multiple_payments.feature:10"
+            }
+          }
+        ],
+        "examples": [
+          {
+            "keyword": "Examples",
+            "name": "",
+            "line": 12,
+            "description": "",
+            "id": "multiple-payments;multiple-private-beneficiary;",
+            "rows": [
+              {
+                "cells": [
+                  "cardnumber",
+                  "atmPin",
+                  "mobileNumber",
+                  "SAID",
+                  "Private_Beneficiary1",
+                  "Private_Beneficiary2",
+                  "amount1",
+                  "amount2"
+                ],
+                "line": 13,
+                "id": "multiple-payments;multiple-private-beneficiary;;1"
+              },
+              {
+                "cells": [
+                  "5221008363362505",
+                  "13579",
+                  "0848045202",
+                  "8410277133081",
+                  "b1",
+                  "abc",
+                  "10",
+                  "20"
+                ],
+                "line": 14,
+                "id": "multiple-payments;multiple-private-beneficiary;;2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "keyword": "Scenario Outline",
+        "name": "Multiple_CDI_Beneficiary",
+        "line": 19,
+        "description": "",
+        "tags": [
+          {
+            "name": "@mul",
+            "line": 18
+          }
+        ],
+        "id": "multiple-payments;multiple-cdi-beneficiary",
+        "type": "scenario_outline",
+        "steps": [
+          {
+            "comments": [
+              {
+                "value": "#Given I log in and navigate to Pay screen",
+                "line": 20
+              }
+            ],
+            "keyword": "Given ",
+            "name": "I sign in",
+            "line": 21,
+            "match": {
+              "location": "steps/login_steps.rb:24"
+            }
+          },
+          {
+            "comments": [
+              {
+                "value": "#And I add a card with details card number <cardnumber> with atm pin <atmPin> together with my mobile number <mobileNumber> and SA ID <SAID>",
+                "line": 22
+              }
+            ],
+            "keyword": "And ",
+            "name": "I select company Beneficiaries \"<Company_Beneficiary1>\",\"<Company_Beneficiary2>\" to pay",
+            "line": 23,
+            "match": {
+              "location": "/Users/Sonalisa/Documents/Work/SBG/Cucumber_Trunk/trunk/features-tablet/multiple_payments.feature:23"
+            }
+          },
+          {
+            "keyword": "When ",
+            "name": "I enter the amount details \"<amount1>\",\"<amount2>\" and navigate to review screen",
+            "line": 24,
+            "match": {
+              "location": "/Users/Sonalisa/Documents/Work/SBG/Cucumber_Trunk/trunk/features-tablet/multiple_payments.feature:24"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "name": "I must see the payment successful message",
+            "line": 25,
+            "match": {
+              "location": "/Users/Sonalisa/Documents/Work/SBG/Cucumber_Trunk/trunk/features-tablet/multiple_payments.feature:25"
+            }
+          }
+        ],
+        "examples": [
+          {
+            "keyword": "Examples",
+            "name": "",
+            "line": 27,
+            "description": "",
+            "id": "multiple-payments;multiple-cdi-beneficiary;",
+            "rows": [
+              {
+                "cells": [
+                  "cardnumber",
+                  "atmPin",
+                  "mobileNumber",
+                  "SAID",
+                  "Company_Beneficiary1",
+                  "Company_Beneficiary2",
+                  "amount1",
+                  "amount2"
+                ],
+                "line": 28,
+                "id": "multiple-payments;multiple-cdi-beneficiary;;1"
+              },
+              {
+                "cells": [
+                  "5221008363362505",
+                  "13579",
+                  "0848045202",
+                  "8410277133081",
+                  "BLUEBIRD NURSERY SAXONWOLD",
+                  "OLD MUTUAL GROUP SCHEMES",
+                  "10",
+                  "20"
+                ],
+                "line": 29,
+                "id": "multiple-payments;multiple-cdi-beneficiary;;2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "keyword": "Scenario Outline",
+        "name": "Multiple_Contact_voucher_Beneficiary",
+        "line": 33,
+        "description": "",
+        "tags": [
+          {
+            "name": "@mul",
+            "line": 32
+          }
+        ],
+        "id": "multiple-payments;multiple-contact-voucher-beneficiary",
+        "type": "scenario_outline",
+        "steps": [
+          {
+            "comments": [
+              {
+                "value": "#Given I log in and navigate to Pay screen",
+                "line": 34
+              }
+            ],
+            "keyword": "Given ",
+            "name": "I sign in",
+            "line": 35,
+            "match": {
+              "location": "steps/login_steps.rb:24"
+            }
+          },
+          {
+            "comments": [
+              {
+                "value": "#  And I add a card with details card number <cardnumber> with atm pin <atmPin> together with my mobile number <mobileNumber> and SA ID <SAID>",
+                "line": 36
+              }
+            ],
+            "keyword": "And ",
+            "name": "I select contact Beneficiaries \"<contact_Beneficiary1>\",\"<contact_Beneficiary2>\" to pay",
+            "line": 37,
+            "match": {
+              "location": "/Users/Sonalisa/Documents/Work/SBG/Cucumber_Trunk/trunk/features-tablet/multiple_payments.feature:37"
+            }
+          },
+          {
+            "keyword": "When ",
+            "name": "I enter the details amount \"<amount1>\",\"<amount2>\" ,PIN \"<PIN>\" and navigate to review screen",
+            "line": 38,
+            "match": {
+              "location": "/Users/Sonalisa/Documents/Work/SBG/Cucumber_Trunk/trunk/features-tablet/multiple_payments.feature:38"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "name": "I must see the contact recipient payment successful message",
+            "line": 39,
+            "match": {
+              "location": "/Users/Sonalisa/Documents/Work/SBG/Cucumber_Trunk/trunk/features-tablet/multiple_payments.feature:39"
+            }
+          }
+        ],
+        "examples": [
+          {
+            "keyword": "Examples",
+            "name": "",
+            "line": 41,
+            "description": "",
+            "id": "multiple-payments;multiple-contact-voucher-beneficiary;",
+            "rows": [
+              {
+                "cells": [
+                  "cardnumber",
+                  "atmPin",
+                  "mobileNumber",
+                  "SAID",
+                  "contact_Beneficiary1",
+                  "contact_Beneficiary2",
+                  "amount1",
+                  "amount2",
+                  "PIN"
+                ],
+                "line": 42,
+                "id": "multiple-payments;multiple-contact-voucher-beneficiary;;1"
+              },
+              {
+                "cells": [
+                  "5221008363362505",
+                  "13579",
+                  "0848045202",
+                  "8410277133081",
+                  "yuva",
+                  "mano",
+                  "50",
+                  "50",
+                  "2468"
+                ],
+                "line": 43,
+                "id": "multiple-payments;multiple-contact-voucher-beneficiary;;2"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "keyword": "Scenario Outline",
+        "name": "Multiple_Contact_send_money_Beneficiary",
+        "line": 47,
+        "description": "",
+        "tags": [
+          {
+            "name": "@mul",
+            "line": 46
+          }
+        ],
+        "id": "multiple-payments;multiple-contact-send-money-beneficiary",
+        "type": "scenario_outline",
+        "steps": [
+          {
+            "comments": [
+              {
+                "value": "#Given I log in and navigate to Pay screen",
+                "line": 48
+              }
+            ],
+            "keyword": "Given ",
+            "name": "I sign in",
+            "line": 49,
+            "match": {
+              "location": "steps/login_steps.rb:24"
+            }
+          },
+          {
+            "comments": [
+              {
+                "value": "# And I add a card with details card number <cardnumber> with atm pin <atmPin> together with my mobile number <mobileNumber> and SA ID <SAID>",
+                "line": 50
+              }
+            ],
+            "keyword": "And ",
+            "name": "I select send money contact Beneficiaries \"<Contact_Beneficiary3>\",\"<Contact_Beneficiary4>\" to pay",
+            "line": 51,
+            "match": {
+              "location": "/Users/Sonalisa/Documents/Work/SBG/Cucumber_Trunk/trunk/features-tablet/multiple_payments.feature:51"
+            }
+          },
+          {
+            "comments": [
+              {
+                "value": "#When I enter the amount details \"<amount1>\",\"<amount2>\" and navigate to review screen",
+                "line": 52
+              }
+            ],
+            "keyword": "When ",
+            "name": "I enter the details amount \"<amount1>\",\"<amount2>\" ,PIN \"<PIN>\" and navigate to review screen",
+            "line": 53,
+            "match": {
+              "location": "/Users/Sonalisa/Documents/Work/SBG/Cucumber_Trunk/trunk/features-tablet/multiple_payments.feature:53"
+            }
+          },
+          {
+            "keyword": "Then ",
+            "name": "I must see the payment successful message",
+            "line": 54,
+            "match": {
+              "location": "/Users/Sonalisa/Documents/Work/SBG/Cucumber_Trunk/trunk/features-tablet/multiple_payments.feature:54"
+            }
+          }
+        ],
+        "examples": [
+          {
+            "keyword": "Examples",
+            "name": "",
+            "line": 56,
+            "description": "",
+            "id": "multiple-payments;multiple-contact-send-money-beneficiary;",
+            "rows": [
+              {
+                "cells": [
+                  "cardnumber",
+                  "atmPin",
+                  "mobileNumber",
+                  "SAID",
+                  "Contact_Beneficiary3",
+                  "Contact_Beneficiary4",
+                  "amount1",
+                  "amount2",
+                  "PIN"
+                ],
+                "line": 57,
+                "id": "multiple-payments;multiple-contact-send-money-beneficiary;;1"
+              },
+              {
+                "cells": [
+                  "5221008363362505",
+                  "13579",
+                  "0848045202",
+                  "8410277133081",
+                  "Arun Azhagu",
+                  "Anushka",
+                  "50",
+                  "50",
+                  "2468"
+                ],
+                "line": 58,
+                "id": "multiple-payments;multiple-contact-send-money-beneficiary;;2"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

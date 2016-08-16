@@ -1,0 +1,238 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "Capability 1",
+    "line": 5,
+    "description": "As a business I want capability 1 so that I can make more money",
+    "tags": [
+      {
+        "name": "@id=capability_1",
+        "line": 1
+      },
+      {
+        "name": "@requirement-type=Capability",
+        "line": 2
+      },
+      {
+        "name": "@custom-prop1=prop1value",
+        "line": 3
+      },
+      {
+        "name": "@custom-prop2=prop2value",
+        "line": 4
+      }
+    ],
+    "id": "capability-1",
+    "uri": "features/functionality_tree/capability1/default.feature"
+  },
+  {
+    "keyword": "Feature",
+    "name": "Feature 1.1",
+    "line": 4,
+    "description": "As a user I want feature 1.1 so that I get more value",
+    "tags": [
+      {
+        "name": "@id=feature_1_1",
+        "line": 1
+      },
+      {
+        "name": "@requirement-type=HighLevelFeature",
+        "line": 2
+      },
+      {
+        "name": "@parent-requirements=capability_2,capability_3",
+        "line": 3
+      }
+    ],
+    "id": "feature-1.1",
+    "uri": "features/functionality_tree/capability1/feature1_1/default.feature"
+  },
+  {
+    "keyword": "Feature",
+    "name": "Feature 1.2",
+    "line": 4,
+    "description": "As a user I want feature 1.2 so that I do less work to get value",
+    "tags": [
+      {
+        "name": "@id=feature_1_2",
+        "line": 1
+      },
+      {
+        "name": "@requirement-type=HighLevelFeature",
+        "line": 2
+      },
+      {
+        "name": "@issues=#PW-123123,#PW-456456",
+        "line": 3
+      }
+    ],
+    "id": "feature-1.2",
+    "uri": "features/functionality_tree/capability1/feature1_2/default.feature"
+  },
+  {
+    "keyword": "Feature",
+    "name": "Feature 1.3",
+    "line": 4,
+    "description": "As a user I want feature 1.3 so that I get value for cheaper",
+    "tags": [
+      {
+        "name": "@id=feature_1_3",
+        "line": 1
+      },
+      {
+        "name": "@requirement-type=HighLevelFeature",
+        "line": 2
+      },
+      {
+        "name": "@issue=#PW-123123",
+        "line": 3
+      }
+    ],
+    "id": "feature-1.3",
+    "uri": "features/functionality_tree/capability1/feature1_3/default.feature"
+  },
+  {
+    "keyword": "Feature",
+    "name": "Capability 2",
+    "line": 4,
+    "description": "As a business I want capability 2 so that I can save money",
+    "tags": [
+      {
+        "name": "@id=capability_2",
+        "line": 1
+      },
+      {
+        "name": "@requirement-type=Capability",
+        "line": 2
+      }
+    ],
+    "id": "capability-2",
+    "uri": "features/functionality_tree/capability2/default.feature"
+  },
+  {
+    "keyword": "Feature",
+    "name": "Feature 2.1",
+    "line": 3,
+    "description": "As a user I want feature 2.1 so that I get more value",
+    "tags": [
+      {
+        "name": "@id=feature_2_1",
+        "line": 1
+      },
+      {
+        "name": "@requirement-type=HighLevelFeature",
+        "line": 2
+      }
+    ],
+    "id": "feature-2.1",
+    "uri": "features/functionality_tree/capability2/feature2_1/default.feature"
+  },
+  {
+    "keyword": "Feature",
+    "name": "Feature 2.2",
+    "line": 3,
+    "description": "As a user I want feature 2.2 so that I do less work to get value",
+    "tags": [
+      {
+        "name": "@id=feature_2_2",
+        "line": 1
+      },
+      {
+        "name": "@requirement-type=HighLevelFeature",
+        "line": 2
+      }
+    ],
+    "id": "feature-2.2",
+    "uri": "features/functionality_tree/capability2/feature2_2/default.feature"
+  },
+  {
+    "keyword": "Feature",
+    "name": "Feature 2.3",
+    "line": 3,
+    "description": "As a user I want feature 2.3 so that I get value for cheaper",
+    "tags": [
+      {
+        "name": "@id=feature_2_3",
+        "line": 1
+      },
+      {
+        "name": "@requirement-type=HighLevelFeature",
+        "line": 2
+      }
+    ],
+    "id": "feature-2.3",
+    "uri": "features/functionality_tree/capability2/feature2_3/default.feature"
+  },
+  {
+    "keyword": "Feature",
+    "name": "Capability 3",
+    "line": 4,
+    "description": "As a business I want capability 3 so that I prevent losing money",
+    "tags": [
+      {
+        "name": "@id=capability_3",
+        "line": 1
+      },
+      {
+        "name": "@requirement-type=Capability",
+        "line": 2
+      }
+    ],
+    "id": "capability-3",
+    "uri": "features/functionality_tree/capability3/default.feature"
+  },
+  {
+    "keyword": "Feature",
+    "name": "Feature 3.1",
+    "line": 3,
+    "description": "As a user I want feature 3.1 so that I get more value",
+    "tags": [
+      {
+        "name": "@id=feature_3_1",
+        "line": 1
+      },
+      {
+        "name": "@requirement-type=HighLevelFeature",
+        "line": 2
+      }
+    ],
+    "id": "feature-3.1",
+    "uri": "features/functionality_tree/capability3/feature3_1/default.feature"
+  },
+  {
+    "keyword": "Feature",
+    "name": "Feature 3.2",
+    "line": 3,
+    "description": "As a user I want feature 3.2 so that I do less work to get value",
+    "tags": [
+      {
+        "name": "@id=feature_3_2",
+        "line": 1
+      },
+      {
+        "name": "@requirement-type=HighLevelFeature",
+        "line": 2
+      }
+    ],
+    "id": "feature-3.2",
+    "uri": "features/functionality_tree/capability3/feature3_2/default.feature"
+  },
+  {
+    "keyword": "Feature",
+    "name": "Feature 3.3",
+    "line": 3,
+    "description": "As a user I want feature 3.3 so that I get value for cheaper",
+    "tags": [
+      {
+        "name": "@id=feature_3_3",
+        "line": 1
+      },
+      {
+        "name": "@requirement-type=HighLevelFeature",
+        "line": 2
+      }
+    ],
+    "id": "feature-3.3",
+    "uri": "features/functionality_tree/capability3/feature3_3/default.feature"
+  }
+]
