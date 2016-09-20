@@ -37,13 +37,13 @@ public class CucumberJsonAdapter extends FilebasedOutcomeAdaptor {
             }
         });
         List<TestOutcome> result = new ArrayList<TestOutcome>();
-        CucumberJsonRequirementReporter requirementsFormatter=new CucumberJsonRequirementReporter();
-        CucumberJsonReporterFormatter cucumberJSONFormatter=new CucumberJsonReporterFormatter();
+        CucumberJsonRequirementReporter requirementsFormatter = new CucumberJsonRequirementReporter();
+        CucumberJsonReporterFormatter cucumberJSONFormatter = new CucumberJsonReporterFormatter();
         for (File jsonFile : jsonFiles) {
             String s = FileUtils.readFileToString(jsonFile);
             String sourceContext = jsonFile.getName().substring(0, jsonFile.getName().length() - 5);
-            if(sourceContext.equals("requirements")){
-                sourceContext=null;
+            if (sourceContext.equals("requirements")) {
+                sourceContext = null;
             }
             requirementsFormatter.setSourceContext(sourceContext);
             cucumberJSONFormatter.setSourceContext(sourceContext);
@@ -59,7 +59,7 @@ public class CucumberJsonAdapter extends FilebasedOutcomeAdaptor {
         }
         result.addAll(cucumberJSONFormatter.getTestOutcomes());
         Gson gson = new Gson();
-        int i=0;
+        int i = 0;
         for (TestOutcome testOutcome : result) {
             JSONTestOutcomeReporter r = new JSONTestOutcomeReporter();
             File outputDirectory = new File(getSerenityJsonDir(), "tmp");
@@ -71,8 +71,11 @@ public class CucumberJsonAdapter extends FilebasedOutcomeAdaptor {
         File requirementsFile = new File(new File(getSerenityJsonDir()), "requirements.json");
         FileUtils.write(requirementsFile, gson.toJson(new RequirementsHolder(requirementsFormatter.getTopLevelRequirements())));
         try {
-            JiraUpdaterService jira = ServiceLoader.load(JiraUpdaterService.class).iterator().next();
-            jira.updateJiraForTestResultsFrom(new File( getSerenityJsonDir(), "tmp").getAbsolutePath());
+            Iterator<JiraUpdaterService> serviceIterator = ServiceLoader.load(JiraUpdaterService.class).iterator();
+            if (serviceIterator.hasNext()) {
+                JiraUpdaterService jira = serviceIterator.next();
+                jira.updateJiraForTestResultsFrom(new File(getSerenityJsonDir(), "tmp").getAbsolutePath());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -36,10 +36,10 @@
                         </goals>
                         <configuration>
                             <source>${basedir}/card</source>
-                            <outputDirectory>${basedir}/target/serenity-json</outputDirectory>
-                            <format>cucumber-json</format>
-                        </configuration>
-                    </execution>
+                                <outputDirectory>${basedir}/target/serenity-json</outputDirectory>
+                                <format>cucumber-json</format>
+                            </configuration>
+                        </execution>
                     <execution>
                         <id>serenity-aggregate</id>
                         <phase>install</phase>
