@@ -1,4 +1,4 @@
-package net.serenitybdd.cucumber.adapter;
+package net.serenitybdd.cucumber.adaptor;
 
 
 import com.google.common.base.Strings;
@@ -14,9 +14,13 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class CucumberJsonReporterFormatter extends CucumberContextualFormatter implements Reporter, DetailedFormatter {
+public class CucumberTestOutcomeExtractor extends CucumberContextualExtractor implements Reporter, DetailedFormatter {
+    private final File tempDir;
     private List<TestOutcome> testOutcomes = new ArrayList<>();
     private Story currentUserStory;
     private int embeddedCount = 0;
@@ -25,6 +29,10 @@ public class CucumberJsonReporterFormatter extends CucumberContextualFormatter i
     private String currentScenarioOutline;
     private boolean processingChildSteps;
     private Map<String, ApplicationFeature> applicationFeatureMap = new HashMap<String, ApplicationFeature>();
+
+    public CucumberTestOutcomeExtractor(File tempDir) {
+        this.tempDir=tempDir;
+    }
 
     @Override
     public void syntaxError(String s, String s1, List<String> list, String s2, Integer integer) {
@@ -80,6 +88,7 @@ public class CucumberJsonReporterFormatter extends CucumberContextualFormatter i
         for (Tag tag : scenario.getTags()) {
             outcome.addTag(TestTag.withValue(tag.getName()));
         }
+        outcome.addTag(TestTag.withValue(sourceContext));
         outcome.addVersions(CucumberTagName.VERSION.valuesOn(scenario));
         outcome.setDescription(scenario.getDescription());
     }
@@ -235,10 +244,8 @@ public class CucumberJsonReporterFormatter extends CucumberContextualFormatter i
     public void embedding(String mimeType, byte[] bytes) {
         if (mimeType.contains("/")) {
             try {
-                String outputDir = CucumberJsonAdapter.getSerenityJsonDir();
-                File dir = new File(outputDir);
-                dir.mkdirs();
-                File file = new File(dir, contextualizeId((embeddedCount++) + "") + "." + mimeType.split("/")[1]);
+                File file = new File(tempDir, contextualizeId((embeddedCount++) + "") + "." + mimeType.split("/")[1]);
+                file.deleteOnExit();
                 FileUtils.writeByteArrayToFile(file, bytes);
                 currentOutcome().currentStep().addScreenshot(new ScreenshotAndHtmlSource(file, null));
             } catch (IOException e) {

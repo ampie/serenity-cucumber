@@ -1,1 +1,1 @@
-net.serenitybdd.cucumber.adapter.ImportedCucumberTagProvider
+net.serenitybdd.cucumber.adaptor.JsonRequirementsTagProvider

@@ -1,4 +1,4 @@
-package net.serenitybdd.cucumber.adapter;
+package net.serenitybdd.cucumber.adaptor;
 
 import net.thucydides.core.requirements.model.Requirement;
 

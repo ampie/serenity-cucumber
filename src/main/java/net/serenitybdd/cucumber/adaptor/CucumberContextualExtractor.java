@@ -1,7 +1,7 @@
-package net.serenitybdd.cucumber.adapter;
+package net.serenitybdd.cucumber.adaptor;
 
-public abstract class CucumberContextualFormatter {
-    private String sourceContext;
+public abstract class CucumberContextualExtractor {
+    protected String sourceContext;
     public void setSourceContext(String ctx){
         this.sourceContext=ctx;
     }

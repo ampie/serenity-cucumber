@@ -1,4 +1,4 @@
-package net.serenitybdd.cucumber.adapter;
+package net.serenitybdd.cucumber.adaptor;
 
 
 import com.google.common.base.Optional;
@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class ImportedCucumberTagProvider implements RequirementsTagProvider {
+public class JsonRequirementsTagProvider implements RequirementsTagProvider {
     List<Requirement> requirements;
     private HashMap<String, Requirement> requirementMap;
 
@@ -27,14 +27,18 @@ public class ImportedCucumberTagProvider implements RequirementsTagProvider {
         if (requirements == null) {
             try {
                 Gson gson = new Gson();
-                String outputDir = CucumberJsonAdapter.getSerenityJsonDir();
-                File file = new File(new File(outputDir), "requirements.json");
-                if (file.exists()) {
-                    String json = FileUtils.readFileToString(file);
-                    RequirementsHolder holder = gson.fromJson(json, RequirementsHolder.class);
-                    requirements = holder.getRequirements();
-                }else{
-                    requirements= Collections.emptyList();
+                String outputDir = System.getProperty("serenity.requirements.json.file");
+                if (outputDir == null) {
+                    requirements = Collections.emptyList();
+                } else {
+                    File file = new File(new File(outputDir), "requirements.json");
+                    if (file.exists()) {
+                        String json = FileUtils.readFileToString(file);
+                        RequirementsHolder holder = gson.fromJson(json, RequirementsHolder.class);
+                        requirements = holder.getRequirements();
+                    } else {
+                        requirements = Collections.emptyList();
+                    }
                 }
                 this.requirementMap = new HashMap<String, Requirement>();
                 List<Requirement> requirements = this.requirements;
@@ -91,6 +95,5 @@ public class ImportedCucumberTagProvider implements RequirementsTagProvider {
                 addParents(result, parent);
             }
         }
-        ;
     }
 }

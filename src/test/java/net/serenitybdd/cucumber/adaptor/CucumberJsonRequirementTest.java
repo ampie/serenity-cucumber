@@ -1,4 +1,4 @@
-package net.serenitybdd.cucumber.adapter;
+package net.serenitybdd.cucumber.adaptor;
 
 
 import net.thucydides.core.requirements.model.Requirement;
@@ -17,7 +17,7 @@ import static org.junit.Assert.assertThat;
 public class CucumberJsonRequirementTest {
     @Test
     public void testLoad() throws Exception {
-        CucumberJsonRequirementReporter reporter = new CucumberJsonRequirementReporter();
+        CucumberRequirementExtractor reporter = new CucumberRequirementExtractor();
         JsonParser p = new JsonParser(reporter, reporter);
         p.parse(FileUtils.readFileToString(new File("src/test/resources/sample-importing-pom/cucumber-reports/requirements.json")));
         reporter.linkRequirements();

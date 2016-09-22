@@ -1,6 +1,5 @@
-package net.serenitybdd.cucumber.adapter;
+package net.serenitybdd.cucumber.adaptor;
 
-import gherkin.formatter.model.Feature;
 import gherkin.formatter.model.Tag;
 import gherkin.formatter.model.TagStatement;
 

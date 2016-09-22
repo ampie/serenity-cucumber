@@ -1,11 +1,9 @@
-package net.serenitybdd.cucumber.adapter;
+package net.serenitybdd.cucumber.adaptor;
 
 import gherkin.deps.com.google.gson.Gson;
 import gherkin.deps.net.iharder.Base64;
 import gherkin.formatter.Argument;
-import gherkin.formatter.Formatter;
 import gherkin.formatter.Reporter;
-import gherkin.formatter.model.*;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -15,11 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 
-import gherkin.deps.com.google.gson.Gson;
-import gherkin.deps.net.iharder.Base64;
-import gherkin.formatter.Argument;
-import gherkin.formatter.Formatter;
-import gherkin.formatter.Reporter;
 import gherkin.formatter.model.Background;
 import gherkin.formatter.model.BasicStatement;
 import gherkin.formatter.model.Comment;
@@ -34,13 +27,6 @@ import gherkin.formatter.model.Scenario;
 import gherkin.formatter.model.ScenarioOutline;
 import gherkin.formatter.model.Step;
 import gherkin.formatter.model.Tag;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 /**
  * ampie - This class is a shameless copy of the JSONParser from gherkin. Open to suggestions on how to do this better.

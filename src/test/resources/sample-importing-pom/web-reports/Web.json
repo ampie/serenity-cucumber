@@ -6,15 +6,15 @@
     "description": "As a user I want low level feature 1.1.1. so that I derive fantastic benefits",
     "tags": [
       {
-        "name": "@issue=#12345",
+        "name": "@issue:#12345",
         "line": 1
       },
       {
-        "name": "@parent-requirement=feature_1_1",
+        "name": "@parent-requirement:feature_1_1",
         "line": 2
       },
       {
-        "name": "@requirement-type=LowLevelFeature",
+        "name": "@requirement-type:LowLevelFeature",
         "line": 3
       }
     ],
@@ -34,7 +34,7 @@
         "description": "with a hat\nand maybe a draw organ",
         "tags": [
           {
-            "name": "@issue=#23456",
+            "name": "@issue:#23456",
             "line": 7
           }
         ],
@@ -242,7 +242,7 @@
         "description": "",
         "tags": [
           {
-            "name": "@issues=#PW-31405,#45678",
+            "name": "@issues:#PW-31405,#45678",
             "line": 23
           }
         ],
@@ -386,7 +386,7 @@
         "description": "",
         "tags": [
           {
-            "name": "@issues=#PW-31405,#45678",
+            "name": "@issues:#PW-31405,#45678",
             "line": 23
           }
         ],
@@ -526,15 +526,15 @@
     "description": "As a user I want low level feature 1.1.2. so that I derive fantastic benefits",
     "tags": [
       {
-        "name": "@issue=#12345",
+        "name": "@issue:#12345",
         "line": 1
       },
       {
-        "name": "@parent-requirement=feature_1_1",
+        "name": "@parent-requirement:feature_1_1",
         "line": 2
       },
       {
-        "name": "@requirement-type=LowLevelFeature",
+        "name": "@requirement-type:LowLevelFeature",
         "line": 3
       }
     ],
@@ -554,7 +554,7 @@
         "description": " with a hat\n and maybe a draw organ",
         "tags": [
           {
-            "name": "@issue=#23456",
+            "name": "@issue:#23456",
             "line": 7
           }
         ],
@@ -762,7 +762,7 @@
         "description": "",
         "tags": [
           {
-            "name": "@issues=#PW-31405,#45678",
+            "name": "@issues:#PW-31405,#45678",
             "line": 23
           }
         ],
@@ -906,7 +906,7 @@
         "description": "",
         "tags": [
           {
-            "name": "@issues=#PW-31405,#45678",
+            "name": "@issues:#PW-31405,#45678",
             "line": 23
           }
         ],

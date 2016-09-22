@@ -29,17 +29,55 @@
                 <version>1.1.37-SNAPSHOT</version>
                 <executions>
                     <execution>
-                        <id>serenity-import</id>
+                        <id>import-mobile</id>
                         <phase>install</phase>
                         <goals>
                             <goal>import</goal>
                         </goals>
                         <configuration>
-                            <source>${basedir}/card</source>
-                                <outputDirectory>${basedir}/target/serenity-json</outputDirectory>
-                                <format>cucumber-json</format>
-                            </configuration>
-                        </execution>
+                            <source>${basedir}/mobile-reports</source>
+                            <outputDirectory>${basedir}/target/serenity-json</outputDirectory>
+                            <format>cucumber-json</format>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>import-web</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>import</goal>
+                        </goals>
+                        <configuration>
+                            <source>${basedir}/web-reports</source>
+                            <outputDirectory>${basedir}/target/serenity-json</outputDirectory>
+                            <format>cucumber-json</format>
+                            <sourceContext>MobileWeb</sourceContext>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>import-domain-service</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>import</goal>
+                        </goals>
+                        <configuration>
+                            <source>${basedir}/service-reports</source>
+                            <outputDirectory>${basedir}/target/serenity-json</outputDirectory>
+                            <format>context-tagger</format>
+                            <sourceContext>DomainService</sourceContext>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>update-jira</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>import</goal>
+                        </goals>
+                        <configuration>
+                            <source>${basedir}/target/serenity-json</source>
+                            <outputDirectory>${basedir}/target/empty</outputDirectory>
+                            <format>jira-updater</format>
+                        </configuration>
+                    </execution>
                     <execution>
                         <id>serenity-aggregate</id>
                         <phase>install</phase>
@@ -49,11 +87,6 @@
                         <configuration>
                             <sourceDirectory>${basedir}/target/serenity-json</sourceDirectory>
                             <outputDirectory>${basedir}/target/site/serenity</outputDirectory>
-                            <jiraUsername>ampie</jiraUsername>
-                            <jiraPassword>Ainn!kk1</jiraPassword>
-                            <jiraProject>CARD</jiraProject>
-                            <jiraUrl>http://localhost:8081</jiraUrl>
-                            <projectKey>CARD</projectKey>
                         </configuration>
                     </execution>
 
@@ -100,11 +133,23 @@
                             <properties>
                                 <property>
                                     <name>serenity.adaptors.cucumber-json</name>
-                                    <value>net.serenitybdd.cucumber.adapter.CucumberJsonAdapter</value>
+                                    <value>net.serenitybdd.cucumber.adaptor.CucumberJsonTestOutcomeAdaptor</value>
                                 </property>
                                 <property>
-                                    <name>serenity.adaptors.cucumber-json.outputdir</name>
-                                    <value>${basedir}/target/serenity-json</value>
+                                    <name>serenity.adaptors.cucumber-json-requirements</name>
+                                    <value>net.serenitybdd.cucumber.adaptor.CucumberJsonRequirementsAdaptor</value>
+                                </property>
+                                <property>
+                                    <name>serenity.adaptors.jira-updater</name>
+                                    <value>net.serenitybdd.cucumber.adaptor.JiraUpdatingAdaptor</value>
+                                </property>
+                                <property>
+                                    <name>serenity.adaptors.context-tagger</name>
+                                    <value>net.serenitybdd.cucumber.adaptor.ContextTaggingAdaptor</value>
+                                </property>
+                                <property>
+                                    <name>serenity.requirements.json.file</name>
+                                    <value>${basedir}/target/serenity-json/requirements.json</value>
                                 </property>
                                 <property>
                                     <name>show.pie.charts</name>
@@ -156,7 +201,9 @@
                                 </property>
                                 <property>
                                     <name>serenity.public.url</name>
-                                    <value>file:///home/ampie/Code/serenity/serenity-cucumber/src/test/resources/sample-importing-pom/target/site/serenity</value>
+                                    <value>
+                                        file:///home/ampie/Code/serenity/serenity-cucumber/src/test/resources/sample-importing-pom/target/site/serenity
+                                    </value>
                                 </property>
                             </properties>
                         </configuration>

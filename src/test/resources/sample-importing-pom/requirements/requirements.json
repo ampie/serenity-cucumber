@@ -6,19 +6,19 @@
     "description": "As a business I want capability 1 so that I can make more money",
     "tags": [
       {
-        "name": "@id=capability_1",
+        "name": "@id:capability_1",
         "line": 1
       },
       {
-        "name": "@requirement-type=Capability",
+        "name": "@requirement-type:Capability",
         "line": 2
       },
       {
-        "name": "@custom-prop1=prop1value",
+        "name": "@custom-prop1:prop1value",
         "line": 3
       },
       {
-        "name": "@custom-prop2=prop2value",
+        "name": "@custom-prop2:prop2value",
         "line": 4
       }
     ],
@@ -32,15 +32,15 @@
     "description": "As a user I want feature 1.1 so that I get more value",
     "tags": [
       {
-        "name": "@id=feature_1_1",
+        "name": "@id:feature_1_1",
         "line": 1
       },
       {
-        "name": "@requirement-type=HighLevelFeature",
+        "name": "@requirement-type:HighLevelFeature",
         "line": 2
       },
       {
-        "name": "@parent-requirements=capability_2,capability_3",
+        "name": "@parent-requirements:capability_2,capability_3",
         "line": 3
       }
     ],
@@ -54,15 +54,15 @@
     "description": "As a user I want feature 1.2 so that I do less work to get value",
     "tags": [
       {
-        "name": "@id=feature_1_2",
+        "name": "@id:feature_1_2",
         "line": 1
       },
       {
-        "name": "@requirement-type=HighLevelFeature",
+        "name": "@requirement-type:HighLevelFeature",
         "line": 2
       },
       {
-        "name": "@issues=#PW-123123,#PW-456456",
+        "name": "@issues:#PW-123123,#PW-456456",
         "line": 3
       }
     ],
@@ -76,15 +76,15 @@
     "description": "As a user I want feature 1.3 so that I get value for cheaper",
     "tags": [
       {
-        "name": "@id=feature_1_3",
+        "name": "@id:feature_1_3",
         "line": 1
       },
       {
-        "name": "@requirement-type=HighLevelFeature",
+        "name": "@requirement-type:HighLevelFeature",
         "line": 2
       },
       {
-        "name": "@issue=#PW-123123",
+        "name": "@issue:#PW-123123",
         "line": 3
       }
     ],
@@ -98,11 +98,11 @@
     "description": "As a business I want capability 2 so that I can save money",
     "tags": [
       {
-        "name": "@id=capability_2",
+        "name": "@id:capability_2",
         "line": 1
       },
       {
-        "name": "@requirement-type=Capability",
+        "name": "@requirement-type:Capability",
         "line": 2
       }
     ],
@@ -116,11 +116,11 @@
     "description": "As a user I want feature 2.1 so that I get more value",
     "tags": [
       {
-        "name": "@id=feature_2_1",
+        "name": "@id:feature_2_1",
         "line": 1
       },
       {
-        "name": "@requirement-type=HighLevelFeature",
+        "name": "@requirement-type:HighLevelFeature",
         "line": 2
       }
     ],
@@ -134,11 +134,11 @@
     "description": "As a user I want feature 2.2 so that I do less work to get value",
     "tags": [
       {
-        "name": "@id=feature_2_2",
+        "name": "@id:feature_2_2",
         "line": 1
       },
       {
-        "name": "@requirement-type=HighLevelFeature",
+        "name": "@requirement-type:HighLevelFeature",
         "line": 2
       }
     ],
@@ -152,11 +152,11 @@
     "description": "As a user I want feature 2.3 so that I get value for cheaper",
     "tags": [
       {
-        "name": "@id=feature_2_3",
+        "name": "@id:feature_2_3",
         "line": 1
       },
       {
-        "name": "@requirement-type=HighLevelFeature",
+        "name": "@requirement-type:HighLevelFeature",
         "line": 2
       }
     ],
@@ -170,11 +170,11 @@
     "description": "As a business I want capability 3 so that I prevent losing money",
     "tags": [
       {
-        "name": "@id=capability_3",
+        "name": "@id:capability_3",
         "line": 1
       },
       {
-        "name": "@requirement-type=Capability",
+        "name": "@requirement-type:Capability",
         "line": 2
       }
     ],
@@ -188,11 +188,11 @@
     "description": "As a user I want feature 3.1 so that I get more value",
     "tags": [
       {
-        "name": "@id=feature_3_1",
+        "name": "@id:feature_3_1",
         "line": 1
       },
       {
-        "name": "@requirement-type=HighLevelFeature",
+        "name": "@requirement-type:HighLevelFeature",
         "line": 2
       }
     ],
@@ -206,11 +206,11 @@
     "description": "As a user I want feature 3.2 so that I do less work to get value",
     "tags": [
       {
-        "name": "@id=feature_3_2",
+        "name": "@id:feature_3_2",
         "line": 1
       },
       {
-        "name": "@requirement-type=HighLevelFeature",
+        "name": "@requirement-type:HighLevelFeature",
         "line": 2
       }
     ],
@@ -224,11 +224,11 @@
     "description": "As a user I want feature 3.3 so that I get value for cheaper",
     "tags": [
       {
-        "name": "@id=feature_3_3",
+        "name": "@id:feature_3_3",
         "line": 1
       },
       {
-        "name": "@requirement-type=HighLevelFeature",
+        "name": "@requirement-type:HighLevelFeature",
         "line": 2
       }
     ],

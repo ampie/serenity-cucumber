@@ -1,4 +1,4 @@
-package net.serenitybdd.cucumber.adapter;
+package net.serenitybdd.cucumber.adaptor;
 
 
 import gherkin.formatter.Reporter;
@@ -7,7 +7,7 @@ import net.thucydides.core.requirements.model.Requirement;
 
 import java.util.*;
 
-public class CucumberJsonRequirementReporter extends CucumberContextualFormatter implements Reporter, DetailedFormatter {
+public class CucumberRequirementExtractor extends CucumberContextualExtractor implements Reporter, DetailedFormatter {
     Map<Feature, Requirement> requirements = new HashMap<Feature, Requirement>();
     private String currentUri;
     private ArrayList<Requirement> topLevelRequirements;
