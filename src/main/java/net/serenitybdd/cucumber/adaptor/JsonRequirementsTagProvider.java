@@ -11,10 +11,12 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.*;
 
 public class JsonRequirementsTagProvider implements RequirementsTagProvider {
     List<Requirement> requirements;
+    Contextualizer contextualizer = new Contextualizer();
     private HashMap<String, Requirement> requirementMap;
 
     @Override
@@ -27,11 +29,11 @@ public class JsonRequirementsTagProvider implements RequirementsTagProvider {
         if (requirements == null) {
             try {
                 Gson gson = new Gson();
-                String outputDir = System.getProperty("serenity.requirements.json.file");
-                if (outputDir == null) {
+                String filePath = System.getProperty("serenity.requirements.json.file");
+                if (filePath == null) {
                     requirements = Collections.emptyList();
                 } else {
-                    File file = new File(new File(outputDir), "requirements.json");
+                    File file = new File(filePath);
                     if (file.exists()) {
                         String json = FileUtils.readFileToString(file);
                         RequirementsHolder holder = gson.fromJson(json, RequirementsHolder.class);
@@ -51,7 +53,7 @@ public class JsonRequirementsTagProvider implements RequirementsTagProvider {
 
     private void putRequirements(List<Requirement> requirements) {
         for (Requirement requirement : requirements) {
-            this.requirementMap.put(requirement.getName(), requirement);
+            this.requirementMap.put(requirement.getDisplayName(), requirement);
             this.putRequirements(requirement.getChildren());
         }
     }
@@ -59,21 +61,52 @@ public class JsonRequirementsTagProvider implements RequirementsTagProvider {
     @Override
     public Optional<Requirement> getParentRequirementOf(TestOutcome testOutcome) {
         if (testOutcome.getUserStory() == null) {
-            System.out.println(testOutcome.getDescription() + " has no story");
             return Optional.absent();
         }
         maybeLoadRequirements();
-        Optional<Requirement> result = Optional.fromNullable(this.requirementMap.get(testOutcome.getUserStory().getId()));
+        String displayName = testOutcome.getUserStory().getName();
+        Optional<Requirement> result = Optional.fromNullable(this.requirementMap.get(displayName));
+        if(result.isPresent()){
+            System.out.println("Found " + displayName);
+        }
         if (!result.isPresent()) {
-            System.out.println(testOutcome.getUserStory().getId() + " not available");
+            if (testOutcome.getQualifier()!=null && testOutcome.getQualifier().isPresent()) {//Isn't it ironic
+                displayName =contextualizer.decontextualizeName(testOutcome.getQualifier().get(), displayName);
+                Requirement parentRequirement = this.requirementMap.get(displayName);
+                if(parentRequirement!=null){
+                    List<Requirement> children = new ArrayList<Requirement>(parentRequirement.getChildren());
+                    //NB!! Use UserStory.getName because if we use UserStory.getId it does not match it up with the tag
+                    Requirement child = Requirement.named(testOutcome.getUserStory().getName()).
+                            withOptionalDisplayName(testOutcome.getUserStory().getName()).
+                            withType(testOutcome.getUserStory().getType()).
+                            withNarrative(testOutcome.getUserStory().getNarrative()).
+                            withParent(parentRequirement.getName()).
+                            withFeatureFileyName(testOutcome.getUserStory().getPath());
+                    children.add(child);
+                    this.requirementMap.put(child.getDisplayName(),child);
+                    parentRequirement.setChildren(children);
+                    result = Optional.of(child);
+                }else{
+//                    System.out.println("Could not find parent requirement " + displayName);
+                }
+            } else {
+//                System.out.println(displayName + " not available");
+            }
         }
         return result;
     }
 
     @Override
+    public Optional<Requirement> getParentRequirementOf(Requirement requirement) {
+        return Optional.of(this.requirementMap.get(requirement.getParent()));
+    }
+
+
+    @Override
     public Optional<Requirement> getRequirementFor(TestTag testTag) {
         maybeLoadRequirements();
-        return Optional.fromNullable(this.requirementMap.get(testTag.getName()));
+        Requirement nullableReference = this.requirementMap.get(testTag.getName());
+        return Optional.fromNullable(nullableReference);
     }
 
     @Override
@@ -82,7 +115,7 @@ public class JsonRequirementsTagProvider implements RequirementsTagProvider {
         Set<TestTag> result = new HashSet<TestTag>();
         Optional<Requirement> parentRequirement = getParentRequirementOf(testOutcome);
         if (parentRequirement.isPresent()) {
-            result.add(parentRequirement.get().asTag());
+            result.add(TestTag.withValue(parentRequirement.get().getType() +":" +parentRequirement.get().getDisplayName()));
             addParents(result, parentRequirement.get());
         }
         return result;
@@ -91,7 +124,7 @@ public class JsonRequirementsTagProvider implements RequirementsTagProvider {
     private void addParents(Set<TestTag> result, Requirement child) {
         for (Requirement parent : this.requirementMap.values()) {
             if (parent.getChildren().contains(child)) {
-                result.add(parent.asTag());
+                result.add(TestTag.withValue(parent.getType() +":" +parent.getDisplayName()));
                 addParents(result, parent);
             }
         }

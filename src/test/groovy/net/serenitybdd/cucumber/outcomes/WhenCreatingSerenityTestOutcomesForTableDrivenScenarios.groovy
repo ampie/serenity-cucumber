@@ -10,6 +10,7 @@ import spock.lang.Specification
 import static net.serenitybdd.cucumber.util.CucumberRunner.serenityRunnerForCucumberTestRunner
 import static net.thucydides.core.model.TestResult.FAILURE
 import static net.thucydides.core.model.TestResult.SUCCESS
+import static net.thucydides.core.model.TestResult.ERROR
 
 class WhenCreatingSerenityTestOutcomesForTableDrivenScenarios extends Specification {
 
@@ -82,10 +83,83 @@ class WhenCreatingSerenityTestOutcomesForTableDrivenScenarios extends Specificat
         testOutcome.stepCount == 4
 
         and:
+        testOutcome.dataTable.rows.collect { it.result } == [SUCCESS, ERROR, FAILURE, SUCCESS]
+
+        and:
+        testOutcome.errorMessage.contains "Oh Crap!"
+
+        and:
+        testOutcome.result == ERROR
+
+    }
+
+    def "should run table-driven screenplay scenarios with failing rows"() {
+        given:
+        def runtime = serenityRunnerForCucumberTestRunner(SimpleScreenplayTableScenarioWithFailures.class, outputDirectory);
+
+        when:
+        runtime.run();
+        def recordedTestOutcomes = new TestOutcomeLoader().forFormat(OutcomeFormat.JSON).loadFrom(outputDirectory);
+        def testOutcome = recordedTestOutcomes[0]
+
+        then:
+        testOutcome.title == "Buying lots of widgets"
+
+        and: "there should be one step for each row in the table"
+        testOutcome.stepCount == 4
+
+        and:
         testOutcome.dataTable.rows.collect { it.result } == [SUCCESS, SUCCESS, FAILURE, SUCCESS]
 
         and:
-        testOutcome.errorMessage.contains "expected:<[5]0> but was:<[2]0>"
+        testOutcome.result == FAILURE
+
+    }
+
+    def "should run table-driven screenplay scenarios with rows containing errors"() {
+        given:
+        def runtime = serenityRunnerForCucumberTestRunner(SimpleScreenplayTableScenarioWithErrors.class, outputDirectory);
+
+        when:
+        runtime.run();
+        def recordedTestOutcomes = new TestOutcomeLoader().forFormat(OutcomeFormat.JSON).loadFrom(outputDirectory);
+        def testOutcome = recordedTestOutcomes[0]
+
+        then:
+        testOutcome.title == "Buying lots of widgets"
+
+        and: "there should be one step for each row in the table"
+        testOutcome.stepCount == 4
+
+        and:
+        testOutcome.dataTable.rows.collect { it.result } == [SUCCESS, FAILURE, ERROR, SUCCESS]
+
+        and:
+        testOutcome.result == ERROR
+
+    }
+
+    def "should run table-driven screenplay scenarios with rows containing failures and errors"() {
+        given:
+        def runtime = serenityRunnerForCucumberTestRunner(SimpleScreenplayTableScenarioWithFailuresAndErrors.class, outputDirectory);
+
+        when:
+        runtime.run();
+        def recordedTestOutcomes = new TestOutcomeLoader().forFormat(OutcomeFormat.JSON).loadFrom(outputDirectory);
+        def testOutcome = recordedTestOutcomes[0]
+
+        then:
+        testOutcome.title == "Buying lots of widgets"
+
+        and: "there should be one step for each row in the table"
+        testOutcome.stepCount == 4
+
+        and:
+        testOutcome.dataTable.rows.collect { it.result } == [SUCCESS, ERROR, FAILURE, SUCCESS]
+
+        and:
+        testOutcome.result == ERROR
+
     }
 
 
@@ -208,7 +282,7 @@ class WhenCreatingSerenityTestOutcomesForTableDrivenScenarios extends Specificat
 
     }
 
-    def "table scenarios marked as @Manual should be reported as mamual"() {
+    def "table scenarios marked as @Manual should be reported as manual"() {
         given:
         def runtime = serenityRunnerForCucumberTestRunner(TableScenarioMarkedAsManual.class, outputDirectory);
 
@@ -236,6 +310,19 @@ class WhenCreatingSerenityTestOutcomesForTableDrivenScenarios extends Specificat
         testOutcome.dataTable.dataSets[0].rows[0].getResult() == TestResult.SUCCESS
         testOutcome.dataTable.dataSets[0].rows[1].getResult() == TestResult.SUCCESS
 
+    }
+
+    def "should handle example tables with errors"() {
+        given:
+        def runtime = serenityRunnerForCucumberTestRunner(BasicArithemticWithTablesScenarioWithErrors.class, outputDirectory);
+
+        when:
+        runtime.run();
+        def recordedTestOutcomes = new TestOutcomeLoader().forFormat(OutcomeFormat.JSON).loadFrom(outputDirectory);
+        def testOutcome = recordedTestOutcomes[0]
+
+        then:
+        testOutcome.dataTable.rows.collect { it.result } == [SUCCESS, SUCCESS, ERROR, FAILURE, SUCCESS]
     }
 
 }

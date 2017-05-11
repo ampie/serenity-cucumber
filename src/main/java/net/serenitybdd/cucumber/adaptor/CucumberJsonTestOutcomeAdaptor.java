@@ -19,7 +19,7 @@ public class CucumberJsonTestOutcomeAdaptor extends CucumberJsonAdaptor {
         Arrays.sort(jsonFiles, alphabetically());
         for (File jsonFile : jsonFiles) {
             String s = FileUtils.readFileToString(jsonFile);
-            cucumberJSONFormatter.setSourceContext(determineSourceContext(jsonFile));
+            cucumberJSONFormatter.setContextualizer(determineSourceContext(jsonFile));
             JsonParser parser = new JsonParser(cucumberJSONFormatter, cucumberJSONFormatter);
             parser.parse(s);
         }
@@ -40,7 +40,7 @@ public class CucumberJsonTestOutcomeAdaptor extends CucumberJsonAdaptor {
         for (TestOutcome outcome : outcomes) {
             for (ScreenshotAndHtmlSource screenshot : outcome.getScreenshotAndHtmlSources()) {
                 File file = screenshot.getScreenshot();
-                System.out.println("Writing file: " + new File(targetDirectory, file.getName()));
+//                System.out.println("Writing file: " + new File(targetDirectory, file.getName()));
                 FileUtils.copyFile(file, new File(targetDirectory, file.getName()));
             }
         }

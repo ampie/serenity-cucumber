@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.ServiceLoader;
 
 public class JiraUpdatingAdaptor extends FilebasedOutcomeAdaptor {
-
-
     @Override
     public List<TestOutcome> loadOutcomesFrom(File sourceDir) throws IOException {
         if (!"true".equals(System.getProperty("serenity.skip.jira.updates"))) {

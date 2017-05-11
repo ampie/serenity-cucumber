@@ -1,4 +1,4 @@
-Feature: A feature with multiple scenarios
+Feature: A feature with pending scenarios
 
   Scenario: Simple scenario 1
     Given I want to purchase 2 widgets

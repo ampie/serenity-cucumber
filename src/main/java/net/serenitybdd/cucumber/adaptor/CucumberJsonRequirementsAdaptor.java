@@ -5,6 +5,7 @@ import net.thucydides.core.model.TestOutcome;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,12 +17,15 @@ public class CucumberJsonRequirementsAdaptor extends CucumberJsonAdaptor {
 
     @Override
     public List<TestOutcome> loadOutcomesFrom(File sourceDir) throws IOException {
+        if(!sourceDir.exists()){
+            throw new FileNotFoundException(sourceDir.getPath());
+        }
         File[] jsonFiles = sourceDir.listFiles(thatEndWithJson());
         Arrays.sort(jsonFiles, alphabetically());
         this.requirementsFormatter = new CucumberRequirementExtractor();
         for (File jsonFile : jsonFiles) {
             String s = FileUtils.readFileToString(jsonFile);
-            requirementsFormatter.setSourceContext(determineSourceContext(jsonFile));
+            requirementsFormatter.setContextualizer(determineSourceContext(jsonFile));
             JsonParser parser = new JsonParser(requirementsFormatter, requirementsFormatter);
             parser.parse(s);
         }
@@ -29,19 +33,14 @@ public class CucumberJsonRequirementsAdaptor extends CucumberJsonAdaptor {
         return Collections.emptyList();
     }
 
-    protected String determineSourceContext(File jsonFile) {
-        String sourceContext = super.determineSourceContext(jsonFile);
-        if (sourceContext.equals("requirements")) {
-            sourceContext = null;
+    protected Contextualizer determineSourceContext(File jsonFile) {
+        Contextualizer sourceContext = super.determineSourceContext(jsonFile);
+        if (sourceContext.getSourceContext().equals("requirements")) {
+            sourceContext.setSourceContext(null);
         }
         return sourceContext;
     }
 
-
-    @Override
-    public void setSourceContext(String sourceContext) {
-
-    }
 
     @Override
     public void copySupportingResourcesTo(List<TestOutcome> outcomes, File targetDirectory) throws IOException {

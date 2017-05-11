@@ -1,0 +1,1 @@
+As a customer, I would like to make use of capability 1 so that I can get the value derived from it

@@ -1,184 +1,65 @@
 {
-  "name": "Verify the navigation to dialler for stopping a debit card (report)",
+  "name": "Successfully viewing available cards",
   "testSteps": [
     {
       "number": 1,
-      "description": "Given I have the following cards:\n| number | type |\n| 5120-5503-0640-5489 | CREDIT CARD |\n| 5520-5770-1204-2997 | DEBIT CARD |",
-      "duration": 2624,
-      "startTime": 1474528311193,
+      "description": "Given John Smith has signed in",
+      "duration": 7090,
+      "startTime": 1474526485751,
       "result": "SUCCESS"
     },
     {
       "number": 2,
-      "description": "Given I sign in with \"Card5NewCardConsole\"",
-      "duration": 7384,
-      "startTime": 1474528311193,
+      "description": "When he navigates to \u0027Manage Cards\u0027",
+      "duration": 5886,
+      "startTime": 1474526492842,
       "result": "SUCCESS",
       "children": [
         {
           "number": 3,
-          "description": "Enter password Card5NewCardConsole",
-          "duration": 3820,
-          "startTime": 1474528311193,
-          "screenshots": [
-            {
-              "screenshot": "13-report.png"
-            }
-          ],
-          "result": "SUCCESS"
-        },
-        {
-          "number": 4,
-          "description": "Press \u0027Sign In\u0027",
-          "duration": 3562,
-          "startTime": 1474528311197,
-          "screenshots": [
-            {
-              "screenshot": "14-report.png"
-            }
-          ],
-          "result": "SUCCESS"
+          "description": "POST http://localhost:32778/Cards/rest/CardAdministrationService/Cards",
+          "duration": 0,
+          "startTime": 1474526498726,
+          "result": "SUCCESS",
+          "restQuery": {
+            "method": "POST",
+            "path": "http://localhost:32778/Cards/rest/CardAdministrationService/Cards",
+            "content": "{\n    \"keyValueMetadata\": [\n        \n    ],\n    \"stepUp\": null,\n    \"systemPrincipalIdentifier\": null\n}",
+            "contentType": "application/json",
+            "requestHeaders": "Accept\u003dapplication/json, application/javascript, text/javascript\n\t\t\t\tx-sbg-messageTraceId\u003d89990000\n\t\t\t\tx-sbg-token\u003daXNzdWVfdGltZT0iMjAxNi0wOS0yMlQwNjo0MTozMiINCmlzc3Vlcj0iQz1TQSwgU1Q9R2F1dGVuZywgTD1Kb2hhbm5lc2J1cmcsIE89U3RhbmRhcmRiYW5rLCBPVT1Tb2x1dGlvbiBEZWxpdmVyeSwgQ049RGF0YXBvd2VyVG9rZW5TZXJ2ZXIuc3RhbmRhcmRiYW5rLmNvLnphIg0Kbm90X2FmdGVyPSIyMDE2LTA5LTIyVDA2OjQ2OjMyIg0Kbm90X2JlZm9yZT0iMjAxNi0wOS0yMlQwNjo0MDozMiINCnVzZXJpZD0iam9obl9zbWl0aEBwZXJzb25hLmNvbSINCnVuaXF1ZUluZGVudGlmaWVyPSJhY2M0MjU2OS1hNTYwLTQxM2UtYTc1MS1kMTRkMGIzN2JjODgiDQpzaWduYXR1cmU9ImxLNm44bStvODI3Z2VPN2pjWVZSWnJ2L1l2dUFEN29YZmc3Mlc4dklzbzRUZlgwcDNheHJHRXU3d2xXOW9VOWExWEZHT0tmSUd3akFYZURVejVNb0ZZQklBU1dKRkZJWmJoV1ZFY0ZFcCtpZ1JaZ1NteDh0VW9PZndFTnhZREhvdjdtRHZ1L1Q1L2NIQUIybXlpSFYwQi8wZUszV3pHTDd4K2IwcjRFWTBqODhHZkJXS0U2VWc4Q0ZtZmJMVGkyNll1M0NJYVVDdEZjTG10MnpkVHlQRzZGYk05TFd5bHJFZ2dvSWRNWkNGRHFpcUZrT21ybTNaWGRqYXEzeGhlZFJCOCtGZFd0QzhWcDZqckx5b0x5ZisvSlg5RkdoWlR1dm9nSjExc0VIRlZqQkw1d0hMbUZkZFdIcGpWOVNtOWNWbWlEVlhQWnM4TWw4VTIwUFV2MDVCQT09Ig\u003d\u003d\n\t\t\t\tContent-Type\u003dapplication/json; charset\u003dISO-8859-1",
+            "requestCookies": "",
+            "responseHeaders": "Server: Apache-Coyote/1.1\nx-sbg-response-type: SUCCESS\nx-sbg-response-message: \nx-sbg-response-code: 0000\nx-sbg-messageTraceId: 4981e1e5-64f3-48af-9c31-34a7ae9e4266\nContent-Type: application/json\nContent-Length: 903\nDate: Thu, 22 Sep 2016 06:41:38 GMT",
+            "responseCookies": "Server: Apache-Coyote/1.1\nx-sbg-response-type: SUCCESS\nx-sbg-response-message: \nx-sbg-response-code: 0000\nx-sbg-messageTraceId: 4981e1e5-64f3-48af-9c31-34a7ae9e4266\nContent-Type: application/json\nContent-Length: 903\nDate: Thu, 22 Sep 2016 06:41:38 GMT",
+            "responseBody": "{\n    \"keyValueMetadata\": [\n        \n    ],\n    \"stepUp\": null,\n    \"cards\": [\n        {\n            \"cardImageUrl\": \"https://standardbank.co.za/images/SBGMobileApp/Card/cardimage/generic-bluebean-card-ALL1.png\",\n            \"countryCode\": null,\n            \"description\": \"BlueBean Card\",\n            \"helpNumber\": \"0860 121 131\",\n            \"internationalTravelEnabled\": true,\n            \"limitManagementEnabled\": true,\n            \"number\": \"5120550306412204\",\n            \"stopCardEnabled\": true,\n            \"type\": \"Credit Card\",\n            \"blueBean\": true\n        },\n        {\n            \"cardImageUrl\": \"https://standardbank.co.za/images/SBGMobileApp/Card/cardimage/generic-standardbank-card-ALL1.png\",\n            \"countryCode\": null,\n            \"description\": \"Gold Credit Card\",\n            \"helpNumber\": \"0861 201 000\",\n            \"internationalTravelEnabled\": true,\n            \"limitManagementEnabled\": true,\n            \"number\": \"5221266460565608\",\n            \"stopCardEnabled\": true,\n            \"type\": \"Credit Card\",\n            \"blueBean\": false\n        }\n    ]\n}",
+            "statusCode": 200
+          }
         }
       ]
     },
     {
-      "number": 5,
-      "description": "And I navigate to manage card",
-      "duration": 2690,
-      "startTime": 1474528311198,
-      "result": "SUCCESS",
-      "children": [
-        {
-          "number": 6,
-          "description": "Click on Manage Card menut item",
-          "duration": 2690,
-          "startTime": 1474528311198,
-          "screenshots": [
-            {
-              "screenshot": "15-report.png"
-            }
-          ],
-          "result": "SUCCESS"
-        }
-      ]
-    },
-    {
-      "number": 7,
-      "description": "Then I must see the manage cards screen \"Manage cards\" with a back button",
-      "duration": 3327,
-      "startTime": 1474528311203,
-      "result": "SUCCESS",
-      "children": [
-        {
-          "number": 8,
-          "description": "See the Manage Cards title",
-          "duration": 2535,
-          "startTime": 1474528311203,
-          "screenshots": [
-            {
-              "screenshot": "16-report.png"
-            }
-          ],
-          "result": "SUCCESS"
-        },
-        {
-          "number": 9,
-          "description": "See the back button",
-          "duration": 790,
-          "startTime": 1474528311205,
-          "screenshots": [
-            {
-              "screenshot": "17-report.png"
-            }
-          ],
-          "result": "SUCCESS"
-        }
-      ]
-    },
-    {
-      "number": 10,
-      "description": "When I click on the \"LOST/STOLEN \" button for a debit card \"5520-5770-1204-2997\"",
-      "duration": 457,
-      "startTime": 1474528311208,
-      "result": "SUCCESS",
-      "children": [
-        {
-          "number": 11,
-          "description": "Click on Manage Card menut item",
-          "duration": 456,
-          "startTime": 1474528311208,
-          "result": "SUCCESS"
-        }
-      ]
-    },
-    {
-      "number": 12,
-      "description": "Then I must see the dialler",
-      "duration": 827,
-      "startTime": 1474528311208,
-      "result": "SUCCESS",
-      "children": [
-        {
-          "number": 13,
-          "description": "Dialler active",
-          "duration": 827,
-          "startTime": 1474528311208,
-          "screenshots": [
-            {
-              "screenshot": "18-report.png"
-            }
-          ],
-          "result": "SUCCESS"
-        }
-      ]
+      "number": 4,
+      "description": "Then he must see the following cards:\n［| cardType    | cardNumber          | cardImage                          |\n| CREDIT CARD | 5120-5503-0641-2204 | generic-bluebean-card-ALL1.png     |\n| CREDIT CARD | 5221-2664-6056-5608 | generic-standardbank-card-ALL1.png |］",
+      "duration": 307,
+      "startTime": 1474526498729,
+      "result": "SUCCESS"
     }
   ],
   "userStory": {
-    "id": "manage-cards-report",
-    "storyName": "Manage Cards (report)",
-    "path": "features/ManageCards.feature",
-    "narrative": "As a user I want to navigate to the Manage Cards screen so that I can see all my cards",
+    "id": "get_cards_by_bpid",
+    "storyName": "Get cards by bpid",
+    "path": "com/sbg/domain/card/stories/get_cards_by_bpid.story",
+    "narrative": "As a Standard Bank Customer\nI want to view my cards\nSo that I can easliy modify their settings",
     "type": "story"
   },
-  "featureTag": {
-    "name": "Manage Cards (report)",
-    "type": "story"
-  },
-  "title": "Verify the navigation to dialler for stopping a debit card (report)",
-  "description": "",
-  "coreIssues": [
-    "#CARD-4"
-  ],
+  "title": "Successfully viewing available cards",
   "tags": [
     {
-      "name": "Manage Cards (report)",
+      "name": "Get cards by bpid",
       "type": "story"
-    },
-    {
-      "name": "1.1",
-      "type": "Version"
-    },
-    {
-      "name": "Card Management/Open dialler for stopping a debit card",
-      "type": "Story"
-    },
-    {
-      "name": "Card Management",
-      "type": "Epic"
-    },
-    {
-      "name": "#CARD-4",
-      "type": "@issue"
     }
   ],
-  "startTime": 1474528311115,
-  "duration": 0,
+  "startTime": 1474526485691,
+  "duration": 13352,
   "manual": false,
-  "result": "SUCCESS",
-  "issues": [
-    "#CARD-4"
-  ],
-  "versions": [
-    "1.1"
-  ]
+  "result": "SUCCESS"
 }

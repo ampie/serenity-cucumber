@@ -139,9 +139,9 @@ public class JsonParser {
         }
 
         if (o.containsKey("output")) {
-            List<String> output = (List<String>) o.get("output");
-            for (String text : output) {
-                reporter.write(text);
+            List<?> output = (List<String>) o.get("output");
+            for (Object text : output) {
+                reporter.write(text.toString());
             }
         }
     }

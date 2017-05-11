@@ -7,32 +7,60 @@ import net.thucydides.core.requirements.model.Requirement;
 
 import java.util.*;
 
-public class CucumberRequirementExtractor extends CucumberContextualExtractor implements Reporter, DetailedFormatter {
+public class CucumberRequirementExtractor implements Reporter, DetailedFormatter {
+    public static final String SOURCE_CONTEXTS = "serenity.test.source.contexts";
+    public static final String SCENARIO_STATUS = "serenity.scenario.statuses";
     Map<Feature, Requirement> requirements = new HashMap<Feature, Requirement>();
     private String currentUri;
     private ArrayList<Requirement> topLevelRequirements;
+    private Contextualizer contextualizer;
 
     @Override
     public void syntaxError(String s, String s1, List<String> list, String s2, Integer integer) {
 
     }
 
-
     public void linkRequirements() {
         for (Requirement r : requirements.values()) {
-            r.setChildren(findChildren(r.getName(), r.getFeatureFileName()));
+            if (r.getChildrenCount() == 0) {
+                r.setChildren(findChildren(r.getName(), r.getFeatureFileName()));
+            }
         }
         topLevelRequirements = new ArrayList<Requirement>();
         for (Requirement r : requirements.values()) {
-            if(isTopLevel(r)){
+            if (isTopLevel(r)) {
                 topLevelRequirements.add(r);
             }
         }
+        Map<String,List<Requirement>> parentUris = extractParentUris();
+        while(parentUris.size()>1){
+            topLevelRequirements = new ArrayList<>();
+            for (Map.Entry<String, List<Requirement>> entry: parentUris.entrySet()) {
+                String name = chopOffDirectoryName(entry.getKey());
+                Requirement capability = Requirement.named(name).withType("Capability").withNarrative(name).withFeatureFileyName(entry.getKey()).withDisplayName(name);
+                topLevelRequirements.add(capability);
+                capability.setChildren(entry.getValue());
+            }
+            parentUris = extractParentUris();
+        }
+    }
+
+    private Map<String, List<Requirement>> extractParentUris() {
+        Map<String,List<Requirement>> parentUris = new HashMap<>();
+        for (Requirement topLevelRequirement : topLevelRequirements) {
+            String parentPath = chopOffFilename(topLevelRequirement.getFeatureFileName());
+            List<Requirement> list = parentUris.get(parentPath);
+            if(list ==null){
+                parentUris.put(parentPath,list=new ArrayList<Requirement>());
+            }
+            list.add(topLevelRequirement);
+        }
+        return parentUris;
     }
 
     private boolean isTopLevel(Requirement r) {
         for (Requirement parent : requirements.values()) {
-            if(parent.getChildren().contains(r)){
+            if (parent.getChildren().contains(r)) {
                 return false;
             }
         }
@@ -55,8 +83,8 @@ public class CucumberRequirementExtractor extends CucumberContextualExtractor im
     }
 
     private static boolean inDirectChildFolder(String parentFileName, String childFileName) {
-        String parentFolder =chopOffFilename(parentFileName);
-        String childFolder= chopOffFilename(childFileName);
+        String parentFolder = chopOffFilename(parentFileName);
+        String childFolder = chopOffFilename(childFileName);
         return childStartWithParent(parentFolder, childFolder) && childSuffixAtomic(parentFolder, childFolder);
     }
 
@@ -72,13 +100,16 @@ public class CucumberRequirementExtractor extends CucumberContextualExtractor im
     private static String chopOffFilename(String fileName) {
         return fileName.substring(0, lastSeperatorIndex(fileName));
     }
+    private static String chopOffDirectoryName(String fileName) {
+        return fileName.substring(lastSeperatorIndex(fileName)+1);
+    }
 
     private static int lastSeperatorIndex(String fileName) {
-        int lastIndexOf=-1;
-        for(int i = fileName.length()-1; i >= 0; i --){
+        int lastIndexOf = -1;
+        for (int i = fileName.length() - 1; i >= 0; i--) {
             char c = fileName.charAt(i);
-            if(c =='\\' || c == '/'){
-                lastIndexOf=i;
+            if (c == '\\' || c == '/') {
+                lastIndexOf = i;
                 break;
             }
         }
@@ -97,21 +128,15 @@ public class CucumberRequirementExtractor extends CucumberContextualExtractor im
     @Override
     public void feature(Feature feature) {
         String id = CucumberTagName.ID.valueOn(feature);
-        id=id==null?feature.getId():id;
-        Requirement requirement = Requirement.named(contextualizeId(id))
-                .withOptionalDisplayName(contextualizeName(feature.getName()))
+        id = id == null ? feature.getId() : id;
+        Requirement requirement = Requirement.named(id)
+                .withOptionalDisplayName(feature.getName())
                 .withOptionalCardNumber(CucumberTagName.ISSUE.valueOn(feature))
-                .withType(typeOf(feature))
+                .withType(contextualizer.typeOf(feature))
                 .withNarrative(feature.getDescription())
-                .withFeatureFileyName(currentUri);
+                .withFeatureFileyName(currentUri)
+                .withParent(CucumberTagName.PARENT_REQUIREMENT.valueOn(feature));
         requirements.put(feature, requirement);
-
-
-    }
-
-    private String typeOf(Feature feature) {
-        String s = CucumberTagName.REQUIREMENT_TYPE.valueOn(feature);
-        return s==null?"story":s;
     }
 
 
@@ -201,5 +226,9 @@ public class CucumberRequirementExtractor extends CucumberContextualExtractor im
     @Override
     public void childStep(String name) {
 
+    }
+
+    public void setContextualizer(Contextualizer contextualizer) {
+        this.contextualizer = contextualizer;
     }
 }

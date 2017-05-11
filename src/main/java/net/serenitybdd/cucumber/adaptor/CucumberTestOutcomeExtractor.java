@@ -2,24 +2,24 @@ package net.serenitybdd.cucumber.adaptor;
 
 
 import com.google.common.base.Strings;
+import com.google.gson.Gson;
 import gherkin.formatter.Reporter;
 import gherkin.formatter.model.*;
 import gherkin.formatter.model.DataTableRow;
+import net.serenitybdd.core.rest.RestQuery;
 import net.thucydides.core.model.*;
 import net.thucydides.core.model.features.ApplicationFeature;
 import net.thucydides.core.model.stacktrace.FailureCause;
+import net.thucydides.core.reports.json.gson.GsonJSONConverter;
 import net.thucydides.core.screenshots.ScreenshotAndHtmlSource;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class CucumberTestOutcomeExtractor extends CucumberContextualExtractor implements Reporter, DetailedFormatter {
+public class CucumberTestOutcomeExtractor implements Reporter, DetailedFormatter {
     private final File tempDir;
     private List<TestOutcome> testOutcomes = new ArrayList<>();
     private Story currentUserStory;
@@ -29,9 +29,11 @@ public class CucumberTestOutcomeExtractor extends CucumberContextualExtractor im
     private String currentScenarioOutline;
     private boolean processingChildSteps;
     private Map<String, ApplicationFeature> applicationFeatureMap = new HashMap<String, ApplicationFeature>();
-
+    private Contextualizer contextualizer;
+    private Feature currentFeature;
+    
     public CucumberTestOutcomeExtractor(File tempDir) {
-        this.tempDir=tempDir;
+        this.tempDir = tempDir;
     }
 
     @Override
@@ -46,6 +48,7 @@ public class CucumberTestOutcomeExtractor extends CucumberContextualExtractor im
 
     @Override
     public void feature(Feature feature) {
+        this.currentFeature = feature;
         ApplicationFeature applicationFeature = null;
         String parentRequirement = CucumberTagName.PARENT_REQUIREMENT.valueOn(feature);
         if (parentRequirement != null) {
@@ -54,7 +57,7 @@ public class CucumberTestOutcomeExtractor extends CucumberContextualExtractor im
                 applicationFeatureMap.put(parentRequirement, applicationFeature = new ApplicationFeature(parentRequirement, parentRequirement));
             }
         }
-        this.currentUserStory = new Story(contextualizeId(feature.getId()), contextualizeName(feature.getName()), null, currentUri, applicationFeature, feature.getDescription(), "story");
+        this.currentUserStory = new Story(feature.getId(), feature.getName(), null, currentUri, applicationFeature, feature.getDescription(), contextualizer.typeOf(feature));
     }
 
 
@@ -82,15 +85,38 @@ public class CucumberTestOutcomeExtractor extends CucumberContextualExtractor im
     @Override
     public void scenario(Scenario scenario) {
         String name = ensureUniqueName(scenario);
-        TestOutcome outcome = new TestOutcome(contextualizeName(name)).withIssues(CucumberTagName.ISSUE.valuesOn(scenario));
+        List<String> issues = CucumberTagName.ISSUE.valuesOn(scenario);
+        /**
+         * TODO debug this
+         */
+        if (false) {
+            if (this.contextualizer.getSourceContext() != null) {
+                for (Tag tag : scenario.getTags()) {
+                    if (tag.getName().startsWith(this.contextualizer.getSourceContext())) {
+                        String[] split = tag.getName().split("_");
+                        if (split.length > 2) {
+                            issues.add(split[2]);
+                        }
+                    }
+                }
+                for (Tag tag : currentFeature.getTags()) {
+                    if (tag.getName().startsWith(this.contextualizer.getSourceContext())) {
+                        String[] split = tag.getName().split("_");
+                        if (split.length > 1) {
+                            issues.add(split[1]);
+                        }
+                    }
+                }
+            }
+        }
+        TestOutcome outcome = new TestOutcome(name).withIssues(issues);
         outcome.setUserStory(currentUserStory);
-        this.testOutcomes.add(outcome);
         for (Tag tag : scenario.getTags()) {
             outcome.addTag(TestTag.withValue(tag.getName()));
         }
-        outcome.addTag(TestTag.withValue(sourceContext));
         outcome.addVersions(CucumberTagName.VERSION.valuesOn(scenario));
         outcome.setDescription(scenario.getDescription());
+        this.testOutcomes.add(contextualizer.contextualize(outcome));
     }
 
     private String ensureUniqueName(Scenario scenario) {
@@ -242,9 +268,11 @@ public class CucumberTestOutcomeExtractor extends CucumberContextualExtractor im
 
     @Override
     public void embedding(String mimeType, byte[] bytes) {
-        if (mimeType.contains("/")) {
+        if (isRestQuery(mimeType, bytes)) {
+            currentOutcome().currentStep().recordRestQuery(toRestQuery(bytes));
+        } else if (mimeType.contains("/")) {
             try {
-                File file = new File(tempDir, contextualizeId((embeddedCount++) + "") + "." + mimeType.split("/")[1]);
+                File file = new File(tempDir, contextualizer.contextualizeId((embeddedCount++) + "") + "." + mimeType.split("/")[1]);
                 file.deleteOnExit();
                 FileUtils.writeByteArrayToFile(file, bytes);
                 currentOutcome().currentStep().addScreenshot(new ScreenshotAndHtmlSource(file, null));
@@ -252,6 +280,14 @@ public class CucumberTestOutcomeExtractor extends CucumberContextualExtractor im
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    private RestQuery toRestQuery(byte[] bytes) {
+        return new Gson().fromJson(new String(bytes), RestQuery.class);
+    }
+
+    private boolean isRestQuery(String mimeType, byte[] bytes) {
+        return mimeType.endsWith("/json") && new String(bytes).contains("responseBody");
     }
 
     @Override
@@ -271,4 +307,9 @@ public class CucumberTestOutcomeExtractor extends CucumberContextualExtractor im
         }
         currentOutcome().recordStep(new TestStep(name));
     }
+
+    public void setContextualizer(Contextualizer contextualizer) {
+        this.contextualizer = contextualizer;
+    }
+
 }

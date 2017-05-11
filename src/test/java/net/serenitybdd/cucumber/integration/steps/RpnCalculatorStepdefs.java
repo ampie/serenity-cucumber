@@ -33,12 +33,15 @@ public class RpnCalculatorStepdefs {
     }
 
     @Then("^the result is (\\d+)$")
-    public void the_result_is(double expected) {
+    public void the_result_is(Integer expected) {
         assertEquals(expected, calc.value());
     }
 
-    @Before({"~@foo"})
-    public void before() {
+//    @Before({"~@foo"})
+    @Before
+    public void before(Scenario scenario) {
+//        scenario.write("Some special text");
+//        int i = 0;
     }
 
     @After
@@ -53,6 +56,13 @@ public class RpnCalculatorStepdefs {
             calc.push(entry.operation);
         }
     }
+
+    @When("^I enter (\\d+) and (\\d+)$")
+    public void entering(int arg1, int arg2) {
+        calc.push(arg1);
+        calc.push(arg2);
+    }
+
 
     public class Entry {
         Integer first;

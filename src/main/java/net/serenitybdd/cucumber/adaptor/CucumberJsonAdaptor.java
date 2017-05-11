@@ -8,13 +8,14 @@ import java.io.FilenameFilter;
 import java.util.Comparator;
 
 public abstract class CucumberJsonAdaptor extends FilebasedOutcomeAdaptor implements ExtendedTestOutcomeAdaptor {
+    private Contextualizer contextualizer = new Contextualizer();
     private String sourceContext;
 
-    protected String determineSourceContext(File jsonFile) {
-        if (this.sourceContext == null) {
-            return jsonFile.getName().substring(0, jsonFile.getName().length() - 5);
+    protected Contextualizer determineSourceContext(File jsonFile) {
+        if (sourceContext== null) {
+            contextualizer.setSourceContext(jsonFile.getName().substring(0, jsonFile.getName().length() - 5));
         }
-        return sourceContext;
+        return contextualizer;
     }
 
     protected Comparator<File> alphabetically() {
@@ -36,8 +37,13 @@ public abstract class CucumberJsonAdaptor extends FilebasedOutcomeAdaptor implem
     }
 
     @Override
-    public void setSourceContext(String sourceContext) {
-        this.sourceContext = sourceContext;
+    public void setScenarioStatus(String scenarioStatus) {
+        contextualizer.setScenarioStatus(scenarioStatus);
+    }
 
+    @Override
+    public void setSourceContext(String sourceContext) {
+        this.sourceContext=sourceContext;
+        contextualizer.setSourceContext(sourceContext);
     }
 }
