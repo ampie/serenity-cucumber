@@ -1,0 +1,130 @@
+[
+  {
+    "line": 2,
+    "elements": [
+      {
+        "before": [
+          {
+            "result": {
+              "duration": 24940839,
+              "status": "passed"
+            },
+            "match": {
+              "location": "RpnCalculatorStepdefs.before(Scenario)"
+            }
+          }
+        ],
+        "line": 7,
+        "name": "A simple scenario with tags",
+        "description": "",
+        "id": "a-simple-feature-with-tags;a-simple-scenario-with-tags",
+        "after": [
+          {
+            "result": {
+              "duration": 22845,
+              "status": "passed"
+            },
+            "match": {
+              "location": "RpnCalculatorStepdefs.after(Scenario)"
+            }
+          }
+        ],
+        "type": "scenario",
+        "keyword": "Scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 108425370,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "I want to purchase 2 widgets",
+            "match": {
+              "arguments": [
+                {
+                  "val": "2",
+                  "offset": 19
+                }
+              ],
+              "location": "SampleWidgetSteps.wantToPurchaseWidgets(int)"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 121337,
+              "status": "passed"
+            },
+            "line": 9,
+            "name": "a widget costs $5",
+            "match": {
+              "arguments": [
+                {
+                  "val": "5",
+                  "offset": 16
+                }
+              ],
+              "location": "SampleWidgetSteps.widgetsCost(int)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 30865,
+              "status": "passed"
+            },
+            "line": 10,
+            "name": "I buy the widgets",
+            "match": {
+              "location": "SampleWidgetSteps.buyWidgets()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 61787151,
+              "status": "passed"
+            },
+            "line": 11,
+            "name": "I should be billed $10",
+            "match": {
+              "arguments": [
+                {
+                  "val": "10",
+                  "offset": 20
+                }
+              ],
+              "location": "SampleWidgetSteps.shouldBeBilled(int)"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "line": 4,
+            "name": "@shouldPass"
+          },
+          {
+            "line": 5,
+            "name": "@color:red"
+          },
+          {
+            "line": 6,
+            "name": "@in-progress"
+          }
+        ]
+      }
+    ],
+    "name": "A simple feature with tags",
+    "description": "This is about selling widgets",
+    "id": "a-simple-feature-with-tags",
+    "keyword": "Feature",
+    "uri": "src/test/resources/samples/simple_scenario_with_tags.feature",
+    "tags": [
+      {
+        "line": 1,
+        "name": "@flavor:strawberry"
+      }
+    ]
+  }
+]

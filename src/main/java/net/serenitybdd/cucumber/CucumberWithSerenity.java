@@ -68,7 +68,12 @@ public class CucumberWithSerenity extends Cucumber {
     }
 
     private Collection<String> stringVersionOf(List<Object> existingTags) {
-        return Lambda.extract(existingTags, on(Object.class).toString());
+        return Lambda.extract(existingTags, new Converter<Object, String>() {
+            @Override
+            public String convert(Object from) {
+                return from.toString();
+            }
+        });
     }
 
     private Converter<String, String> toCucumberTags() {

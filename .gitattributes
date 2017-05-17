@@ -3,7 +3,7 @@
 # This setting tells git always to normalize the files specified.
 # When committed they are stored with LF, on checkout they are
 # converted to the UNIX format, with LF as end of line
-* text=auto eol=lf
+#* text=auto eol=lf
 
 # Explicitly declare text files we want to always be normalized and converted
 # to native line endings on checkout.

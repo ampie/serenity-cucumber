@@ -48,7 +48,7 @@ public class SerenityReporter implements Formatter, Reporter {
     public static final String PENDING_STATUS = "pending";
     private static final String SCENARIO_OUTLINE_NOT_KNOWN_YET = "";
 
-    private final Queue<Step> stepQueue;
+    protected final Queue<Step> stepQueue;
 
     private Configuration systemConfiguration;
 
@@ -56,19 +56,19 @@ public class SerenityReporter implements Formatter, Reporter {
 
     private final List<BaseStepListener> baseStepListeners;
 
-    private Feature currentFeature;
+    protected Feature currentFeature;
 
     private int currentExample = 0;
 
-    private boolean examplesRunning;
+    protected boolean examplesRunning;
 
     private List<Map<String, String>> exampleRows;
 
-    private int exampleCount = 0;
+    protected int exampleCount = 0;
 
-    private DataTable table;
+    protected DataTable table;
 
-    private boolean waitingToProcessBackgroundSteps = false;
+    protected boolean waitingToProcessBackgroundSteps = false;
 
     private String currentUri;
 
@@ -87,7 +87,7 @@ public class SerenityReporter implements Formatter, Reporter {
         forcedStoryResult = Optional.absent();
     }
 
-    private void clearScenarioResult() {
+    protected void clearScenarioResult() {
         forcedScenarioResult = Optional.absent();
     }
 
@@ -235,7 +235,7 @@ public class SerenityReporter implements Formatter, Reporter {
         }
     }
 
-    private void configureDriver(Feature feature) {
+    protected void configureDriver(Feature feature) {
         StepEventBus.getEventBus().setUniqueSession(systemConfiguration.shouldUseAUniqueBrowser());
 
         List<String> tags = getTagNamesFrom(feature.getTags());
@@ -275,7 +275,7 @@ public class SerenityReporter implements Formatter, Reporter {
     }
 
 
-    boolean addingScenarioOutlineSteps = false;
+    protected boolean addingScenarioOutlineSteps = false;
 
     int scenarioOutlineStartsAt;
     int scenarioOutlineEndsAt;
@@ -314,7 +314,7 @@ public class SerenityReporter implements Formatter, Reporter {
         currentScenarioId = scenarioId;
     }
 
-    private String scenarioIdFrom(String scenarioIdOrExampleId) {
+    protected String scenarioIdFrom(String scenarioIdOrExampleId) {
         String[] idElements = scenarioIdOrExampleId.split(";");
         return (idElements.length >= 2) ? String.format("%s;%s", defaultFeatureId, idElements[1]) : "";
     }
@@ -513,15 +513,13 @@ public class SerenityReporter implements Formatter, Reporter {
         currentExample++;
     }
 
-    private void finishExample() {
+    protected void finishExample() {
         StepEventBus.getEventBus().exampleFinished();
         exampleCount--;
         if (exampleCount == 0) {
             examplesRunning = false;
 
-            String scenarioOutline = featureFileContents().trimmedContent()
-                    .betweenLine(scenarioOutlineStartsAt)
-                    .and(scenarioOutlineEndsAt);
+            String scenarioOutline = extractScenarioOutline();
 
             table.setScenarioOutline(scenarioOutline);
 
@@ -529,6 +527,12 @@ public class SerenityReporter implements Formatter, Reporter {
         } else {
             examplesRunning = true;
         }
+    }
+
+    protected String extractScenarioOutline() {
+        return featureFileContents().trimmedContent()
+                        .betweenLine(scenarioOutlineStartsAt)
+                        .and(scenarioOutlineEndsAt);
     }
 
     @Override
@@ -614,13 +618,13 @@ public class SerenityReporter implements Formatter, Reporter {
 
     }
 
-    private void updatePendingResults() {
+    protected void updatePendingResults() {
         if (isPendingStory()) {
             StepEventBus.getEventBus().setAllStepsTo(TestResult.PENDING);
         }
     }
 
-    private void updateSkippedResults() {
+    protected void updateSkippedResults() {
         if (isSkippedStory()) {
             StepEventBus.getEventBus().setAllStepsTo(TestResult.SKIPPED);
         }
@@ -680,7 +684,7 @@ public class SerenityReporter implements Formatter, Reporter {
         }
     }
 
-    private String stepTitleFrom(Step currentStep) {
+    protected String stepTitleFrom(Step currentStep) {
         return currentStep.getKeyword()
                 + currentStep.getName()
                 + embeddedTableDataIn(currentStep);
@@ -722,10 +726,15 @@ public class SerenityReporter implements Formatter, Reporter {
     }
 
     public List<TestOutcome> getAllTestOutcomes() {
-        return flatten(extract(baseStepListeners, on(BaseStepListener.class).getTestOutcomes()));
+        List<TestOutcome> result = new ArrayList<>();
+        for (BaseStepListener baseStepListener : baseStepListeners) {
+            result.addAll(baseStepListener.getTestOutcomes());
+        }
+        return result;
+//        return flatten(extract(baseStepListeners, on(BaseStepListener.class).getTestOutcomes()));
     }
 
-    private String normalized(String value) {
+    protected String normalized(String value) {
         return value.replaceAll(OPEN_PARAM_CHAR, "{").replaceAll(CLOSE_PARAM_CHAR, "}");
     }
 }

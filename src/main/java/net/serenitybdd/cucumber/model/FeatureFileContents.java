@@ -1,6 +1,5 @@
 package net.serenitybdd.cucumber.model;
 
-import com.beust.jcommander.internal.Lists;
 import com.google.common.base.Joiner;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -53,7 +52,7 @@ public class FeatureFileContents {
                 return "";
             }
 
-            List<String> rows = Lists.newArrayList();
+            List<String> rows = new ArrayList<>();
             for (int row = startRow; row < endRow; row++) {
                 String line = (trim) ? lines.get(row).trim() : lines.get(row);
                 rows.add(line);
